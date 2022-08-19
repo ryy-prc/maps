@@ -1,4 +1,128 @@
+/** basic style 
+**********************************************************************/
+table {
+    width: 100%;
+    padding: 1em;
+
+    .position-index {
+        text-align: right;
+        padding: 0 0.5em;
+    }
+}
+
+button {
+    display: block;
+    cursor: pointer;
+    padding: 0.4em 1em;
+}
+
+input {
+    display: inline-block;
+}
+
+input[type="checkbox"] {
+    padding: 0.5em;
+}
+
+ul {
+    padding: 0;
+}
+
+/** layout
+**********************************************************************/
+.flex {
+    display: flex;
+
+    &.column {
+        flex-direction: column;
+    }
+
+    &.column-reverse {
+        flex-direction: column-reverse;
+    }
+
+    &.row {
+        flex-direction: row;
+    }
+
+    &.center {
+        align-items: center;
+        justify-content: center;
+    }
+
+    .flex-item {
+        padding: 0.5em;
+    }
+
+    .flex-end {
+        align-items: flex-end;
+    }
+}
+
+/** structure
+**********************************************************************/
 #page-map {
+    position: relative;
     width: 100vw;
     height: 100vh;
+}
+
+#map {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#map-user-menu {
+    position: fixed;
+    right: calc(100% - 100vw);
+    z-index: 900;
+    width: auto;
+    height: 100vh;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.8);
+    overflow-y: scroll;
+}
+#map-user-menu::-webkit-scrollbar {
+    width: 10px;
+}
+#map-user-menu::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 5px;
+}
+#map-user-menu::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+#map-controller {
+    padding: 1em;
+}
+
+#map-positions-information {
+    padding: 1em;
+    .positions-information-label {
+        width: 75px;
+        text-align: right;
+    }
+    .positions-information-value {
+        width: calc((100% - 75px) / 2);
+        flex-grow: 1;
+        border: 1px solid #fff;
+    }
+}
+
+/** styles
+**********************************************************************/
+
+.pick-location-lng, .pick-location-lat {
+    display: block;
+    // margin: 0 0.5em;
+    padding: 0.5em;
+    min-height: 2em;
+    border: 1px solid #fff;
+}
+
+.position-index {
+    text-align: right;
+    padding: 0 0.5em;
 }

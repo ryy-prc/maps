@@ -1,1 +1,74 @@
-<p>page-leaflet works!</p>
+<div id="page-map">
+    
+    <div id="map" appLeaflet></div>
+
+    <div id="map-user-menu">
+
+        <div id="map-navigator">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50%">X: Longitude</th>
+                        <th style="width: 50%">Y: Latitude</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><div class="pick-location-lng">{{pickLocation.longitude}}</div></td>
+                        <td><div class="pick-location-lat">{{pickLocation.latitude}}</div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div id="map-controller" class="flex row center">
+            <div class="flex-item">
+                <button (click)="onClearMap()">MAP CLEAR</button>
+            </div>
+            <div class="flex-item">
+                <button (click)="onClearForm()">FORM CLEAR</button>
+            </div>
+            <div class="flex-item">
+                <button (click)="onPushMap()">PUSH</button>
+            </div>
+            <div class="flex-item">
+                <button (click)="onPlusForm()">＋</button>
+            </div>
+        </div>
+        
+        <div id="map-positions">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Index</th>
+                        <th>X: Longitude</th>
+                        <th>Y: Latitude</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let id of positions; let i = index; trackBy: trackByItem">
+                        <td class="position-index">{{i}}</td>
+                        <td class="position-lon"><input type="number" id="position-{{i}}-longitude" [(ngModel)]="positions[i].longitude" /></td>
+                        <td class="position-lat"><input type="number" id="position-{{i}}-latitude" [(ngModel)]="positions[i].latitude" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="map-positions-information">
+            <ul>
+                <li class="flex row">
+                    <div class="flex-item positions-information-label">distance</div>
+                    <div class="flex-item positions-information-value">{{positionsInformation.distance}}</div>
+                </li>
+                <li class="flex row" *ngFor="let alongPoints of positionsInformation.alongPoints;">
+                    <div class="flex-item positions-information-label">{{alongPoints.kmLabel * 1000}}</div>
+                    <div class="flex-item positions-information-value">{{alongPoints.position?.longitude}}</div>
+                    <div class="flex-item positions-information-value">{{alongPoints.position?.latitude}}</div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>

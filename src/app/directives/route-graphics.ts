@@ -1,4 +1,4 @@
-import { Position, Route } from './interfaces/interface-map';
+import { Position, Route } from '../interfaces/interface-map';
 import turf_along from '@turf/along'
 import turf_distance from '@turf/distance'
 import * as turf_helpers from '@turf/helpers'

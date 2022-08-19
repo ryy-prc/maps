@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: 'cesium', component: PageCesiumComponent },
   { path: 'leaflet', component: PageLeafletComponent },
   { path: '', component: PageMainComponent },
-  { path: '**', redirectTo: '' },
+  // { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

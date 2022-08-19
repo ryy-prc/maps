@@ -1,3 +1,27 @@
 <div id="page-map" appCesium>
-    <div id="current-location"></div>
+    <div id="position-form-container">
+        <form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>(X) Longitude</th>
+                        <th>(Y) Latitude</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Start</td>
+                        <td><input type="number" id="position-start-longitude" /></td>
+                        <td><input type="number" id="position-start-latitude" /></td>
+                    </tr>
+                    <tr>
+                        <td>End</td>
+                        <td><input type="number" id="position-end-longitude" /></td>
+                        <td><input type="number" id="position-end-latitude" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
 </div>

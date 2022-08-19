@@ -1,5 +1,5 @@
 import { ElementRef, OnInit } from '@angular/core';
-import { Position, Route } from '../interfaces/interface-map';
+import { Position, Route } from '../../interfaces/interface-map';
 
 export abstract class AbstractMapCesium {
 

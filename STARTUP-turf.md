@@ -21,3 +21,11 @@ npm i @turf/along
 npm i @turf/distance
 ```
 
+### length
+ライン上の距離を算出
+
+#### Install
+```
+npm i @turf/length
+```
+

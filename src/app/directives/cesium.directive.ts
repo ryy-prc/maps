@@ -1,12 +1,15 @@
 import { Directive, ElementRef } from '@angular/core';
 import { AbstractMapCesium } from './abstracts/abstract-map-cesium';
-import { Position, Route } from './interfaces/interface-map';
+import { Position, Route } from '../interfaces/interface-map';
 import { RouteGraphics } from './route-graphics';
 
 @Directive({
   selector: '[appCesium]'
 })
 export class CesiumDirective extends AbstractMapCesium {
+
+  /** Cesiumのアクセストークン */
+  static readonly CESIUM_ACCESS_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2NDZkN2IyZS01M2Q2LTRhNTQtYTk3Mi1kNThlMzRjZTM3ZmQiLCJpZCI6NjQ2NDcsImlhdCI6MTYzMDI5NzI5N30.LlwvHwSC2hZNoGIztllvRQdn1cb8_G8GndHXtSA_xCk';
 
   private routeGraphics: RouteGraphics = new RouteGraphics();
 
@@ -15,6 +18,7 @@ export class CesiumDirective extends AbstractMapCesium {
   }
 
   ngOnInit(): void {
+    Cesium.Ion.defaultAccessToken = CesiumDirective.CESIUM_ACCESS_TOKEN;
     this.cesiumInit(this.el.nativeElement);
 
     // add map image
