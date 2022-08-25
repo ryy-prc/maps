@@ -67,6 +67,12 @@
                     <div class="flex-item positions-information-value">{{alongPoints.position?.latitude}}</div>
                 </li>
             </ul>
+            <ul>
+                <li class="flex row" *ngFor="let distance of positionsDistance; let i = index;">
+                    <div class="flex-item positions-information-label">No.{{i}}</div>
+                    <div class="flex-item positions-information-value">{{distance}}</div>
+                </li>
+            </ul>
         </div>
 
     </div>

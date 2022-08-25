@@ -46,6 +46,7 @@ export class PageLeafletComponent implements OnInit {
    * Form input positions.
    */
   positions: Position[] = [];
+  positionsDistance: Number[] = [];
 
   /**
    * Position Information.
@@ -141,16 +142,23 @@ export class PageLeafletComponent implements OnInit {
   private drawRoutes(positions: Position[], info: PositionInformation | null = null): PositionInformation | null {
     console.log('Input Positions: ', positions);
 
+    this.positionsDistance = [];
     const _points = [];
     for (let i = 0; i < positions.length; i++) {
       const _position = positions[i];
       if (_position.longitude == null || _position.latitude == null) {
         continue;
       }
-      this.directive?.createMarker(
-        [_position.latitude, _position.longitude], 'No.' + i,
-      );
       _points.push([_position.longitude, _position.latitude]);
+
+      const distance = (i < 1) ? 0 : turf.length(turf.lineString(_points), { units: 'kilometers' });
+      this.positionsDistance.push(distance);
+
+      this.directive?.createMarker(
+        [_position.latitude, _position.longitude],
+        `No.${i}<br/>
+        distance: ${distance} km`,
+      );
     }
 
     const line = turf.lineString(_points);
@@ -172,109 +180,25 @@ export class PageLeafletComponent implements OnInit {
         _alongPoints.push(along.geometry.coordinates);
 
         const alongDistance = turf.length(turf.lineString(_alongPoints), { units: 'kilometers' });
+
+        if (alongDistance > alongPoint.actualValue - 0.0002) {
+          this.directive?.createMarker(
+            [latitude, longitude],
+            `${alongPoint.kmLabel * 1000} m<br/>
+            distance: ${alongDistance} km`,
+          );
+
+          alongPoint.position = { longitude, latitude };
+        }
+        else {
+          alongPoint.position = { longitude: null, latitude: null };
+        }
         
-        this.directive?.createMarker(
-          [latitude, longitude], 
-          `${alongPoint.kmLabel * 1000} m<br/>
-          distance: ${alongDistance} km`,
-        );
-        
-        alongPoint.position = { longitude, latitude };
       }
 
       return info;
     }
     return null;
-
-    // if (this.position.start.longitude && this.position.start.latitude
-    //   && this.position.end.longitude && this.position.end.latitude
-    // ) {
-
-    //   this.directive?.createPolyline([
-    //     [this.position.start.latitude, this.position.start.longitude],
-    //     [this.position.end.latitude, this.position.end.longitude],
-    //   ]);
-
-    //   // turf
-    //   const from = turf.point([this.position.start.longitude, this.position.start.latitude]);
-    //   const to = turf.point([this.position.end.longitude, this.position.end.latitude]);
-    //   const distance = turf.distance(from, to, { units: 'kilometers' });
-    //   console.log("start-end distance: %o km", distance);
-
-    //   if (distance > 0.1) {
-    //     const line = turf.lineString([[this.position.start.longitude, this.position.start.latitude], [this.position.end.longitude, this.position.end.latitude]]);
-    //     const along = turf.along(line, 0.0997, { units: 'kilometers' });
-    //     const longitude = along.geometry.coordinates[0];
-    //     const latitude = along.geometry.coordinates[1];
-    //     this.directive?.createMarker(
-    //       [latitude, longitude], '99.7m',
-    //     );
-    //     const distance = turf.distance(from, along, { units: 'kilometers' });
-    //     console.log('99.7m Position: %o %o, distance: %o km', longitude, latitude, distance);
-    //   }
-
-    //   if (distance > 0.25) {
-    //     const line = turf.lineString([[this.position.start.longitude, this.position.start.latitude], [this.position.end.longitude, this.position.end.latitude]]);
-    //     const along = turf.along(line, 0.2497, { units: 'kilometers' });
-    //     const longitude = along.geometry.coordinates[0];
-    //     const latitude = along.geometry.coordinates[1];
-    //     this.directive?.createMarker(
-    //       [latitude, longitude], '249.7m',
-    //     );
-    //     const distance = turf.distance(from, along, { units: 'kilometers' });
-    //     console.log('249.7m Position: %o %o, distance: %o km', longitude, latitude, distance);
-    //   }
-
-    //   if (distance > 0.35) {
-    //     const line = turf.lineString([[this.position.start.longitude, this.position.start.latitude], [this.position.end.longitude, this.position.end.latitude]]);
-    //     const along = turf.along(line, 0.3497, { units: 'kilometers' });
-    //     const longitude = along.geometry.coordinates[0];
-    //     const latitude = along.geometry.coordinates[1];
-    //     this.directive?.createMarker(
-    //       [latitude, longitude], '349.7m',
-    //     );
-    //     const distance = turf.distance(from, along, { units: 'kilometers' });
-    //     console.log('349.7m Position: %o %o, distance: %o km', longitude, latitude, distance);
-    //   }
-
-    //   if (distance > 0.5) {
-    //     const line = turf.lineString([[this.position.start.longitude, this.position.start.latitude], [this.position.end.longitude, this.position.end.latitude]]);
-    //     const along = turf.along(line, 0.5, { units: 'kilometers' });
-    //     const longitude = along.geometry.coordinates[0];
-    //     const latitude = along.geometry.coordinates[1];
-    //     this.directive?.createMarker(
-    //       [latitude, longitude], '500m',
-    //     );
-    //     const distance = turf.distance(from, along, { units: 'kilometers' });
-    //     console.log('500m Position: %o %o, distance: %o km', longitude, latitude, distance);
-    //   }
-
-    //   if (distance > 0.75) {
-    //     const line = turf.lineString([[this.position.start.longitude, this.position.start.latitude], [this.position.end.longitude, this.position.end.latitude]]);
-    //     const along = turf.along(line, 0.75, { units: 'kilometers' });
-    //     const longitude = along.geometry.coordinates[0];
-    //     const latitude = along.geometry.coordinates[1];
-    //     this.directive?.createMarker(
-    //       [latitude, longitude], '750m',
-    //     );
-    //     const distance = turf.distance(from, along, { units: 'kilometers' });
-    //     console.log('750m Position: %o %o, distance: %o km', longitude, latitude, distance);
-    //   }
-
-    //   if (distance > 1) {
-    //     const line = turf.lineString([[this.position.start.longitude, this.position.start.latitude], [this.position.end.longitude, this.position.end.latitude]]);
-    //     const along = turf.along(line, 1, { units: 'kilometers' });
-    //     const longitude = along.geometry.coordinates[0];
-    //     const latitude = along.geometry.coordinates[1];
-    //     this.directive?.createMarker(
-    //       [latitude, longitude], '1000m',
-    //     );
-    //     const distance = turf.distance(from, along, { units: 'kilometers' });
-    //     console.log('1000m Position: ', longitude, latitude);
-    //     console.log("distance: %o km", distance);
-    //   }
-
-    // }
 
   }
 
